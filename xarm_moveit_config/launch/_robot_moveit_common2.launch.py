@@ -39,11 +39,50 @@ def launch_setup(context, *args, **kwargs):
         package='moveit_ros_move_group',
         executable='move_group',
         output='screen',
+        # name='move_group1',
         parameters=[
             moveit_config_dict,
             {'use_sim_time': use_sim_time},
         ],
     )
+
+    # second move group for planning only
+    move_group_node2 = Node(
+        package='moveit_ros_move_group',
+        executable='move_group',
+        output='screen',
+        namespace='planner',
+        parameters=[
+            moveit_config_dict,
+            {'use_sim_time': use_sim_time},
+        ],
+        remappings=[
+            ('/planner/planning_scene', '/planning_scene'),
+            ('/planner/collision_object', '/collision_object'),
+            ('/planner/attached_collision_object', '/attached_collision_object'),
+            ('/planner/planning_scene_world', '/planning_scene_world'),
+            ('/planner/joint_states', '/joint_states'),
+            ('/planner/monitored_planning_scene', '/monitored_planning_scene'),
+            ('/planner/get_planning_scene', '/get_planning_scene'),
+            ('/planner/apply_planning_scene', '/apply_planning_scene')
+        ]
+    )
+
+    # # second move group for planning only
+    # move_group_node2 = Node(
+    #     package='moveit_ros_move_group',
+    #     executable='move_group',
+    #     output='screen',
+    #     # namespace='planner',
+    #     name='move_group2',
+    #     parameters=[
+    #         moveit_config_dict,
+    #         {'use_sim_time': use_sim_time},
+    #     ],
+    #     remappings=[
+    #         ('/plan_kinematic_path', '/planner_plan_kinematic_path'),
+    #     ]
+    # )
 
     # rviz with moveit configuration
     rviz_config_file = PathJoinSubstitution([FindPackageShare(moveit_config_package_name), 'rviz', 'planner.rviz' if no_gui_ctrl.perform(context) == 'true' else 'moveit.rviz'])
@@ -100,6 +139,7 @@ def launch_setup(context, *args, **kwargs):
         rviz2_node,
         static_tf,
         move_group_node,
+        move_group_node2,
         robot_planner_node_launch
     ]
 

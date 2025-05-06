@@ -242,6 +242,24 @@ def launch_setup(context, *args, **kwargs):
         package='moveit_ros_move_group',
         executable='move_group',
         output='screen',
+        name='move_group1',
+        parameters=[
+            robot_description_parameters,
+            ompl_planning_pipeline_config,
+            trajectory_execution,
+            plan_execution,
+            moveit_controllers,
+            planning_scene_monitor_parameters,
+            # sensor_manager_parameters,
+            {'use_sim_time': use_sim_time},
+        ],
+    )
+
+    # a second move group node
+    move_group_node2 = Node(
+        package='moveit_ros_move_group',
+        executable='move_group',
+        output='screen',
         parameters=[
             robot_description_parameters,
             ompl_planning_pipeline_config,

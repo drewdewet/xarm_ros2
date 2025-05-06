@@ -24,3 +24,33 @@ uf850:
     - LazyPRMstar
     - SPARS
     - SPARStwo
+    - InformedRRTstar
+    - BITstar
+
+planner_configs:
+  RRTstar:
+    type: geometric::RRTstar
+    range: 1  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+    # rewire_factor: 1.5
+    # goal_bias: 0.025  # When close to goal select goal, with this probability? default: 0.05
+    # delay_collision_checking: 1  # Stop collision checking as soon as C-free parent found. default 1
+    longest_valid_segment_fraction: 0.001
+    # prune_threshold: 0.1 
+    # focus_search: True
+    # informed_sampling: True
+    optimization_objective: PathLengthOptimizationObjective
+
+  RRTConnect:
+    type: geometric::RRTConnect
+    range: 1.5  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+    longest_valid_segment_fraction: 0.0005
+
+  InformedRRTstar:
+    type: geometric::InformedRRTstar
+    longest_valid_segment_fraciton: 0.001
+
+  BITstar:
+    type: geometric::BITstar
+    longest_valid_segment_fraciton: 0.001
+
+  
